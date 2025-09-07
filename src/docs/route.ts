@@ -10,6 +10,7 @@ export default function docs(app: Express) {
     swaggerUi.serve,
     swaggerUi.setup(swaggerOutput, {
       customCssUrl: "/docs-public/swagger-ui.css",
+      customJs: "/docs-public/swagger-ui-bundle.js",
     })
   );
 }
