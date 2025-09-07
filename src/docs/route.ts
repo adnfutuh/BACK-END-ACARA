@@ -1,13 +1,15 @@
-import { Express } from "express";
+import express, { Express } from "express";
 import swaggerUi from "swagger-ui-express";
 import swaggerOutput from "./swagger_output.json";
+import path from "path";
 
 export default function docs(app: Express) {
+  app.use("/docs-public", express.static(path.join(__dirname, "public")));
   app.use(
     "/api-docs",
     swaggerUi.serve,
     swaggerUi.setup(swaggerOutput, {
-      customCssUrl: "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.2/swagger-ui.css",
+      customCssUrl: "/docs-public/swagger-ui.css",
     })
   );
 }
