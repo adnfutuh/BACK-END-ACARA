@@ -28,9 +28,21 @@ const doc = {
       },
     },
     schemas: {
-      loginRequest: {
+      LoginRequest: {
         identifier: "Adnan Progammer",
         password: "password123",
+      },
+
+      RegisterRequest: {
+        fullName: "anaya",
+        userName: "anaya",
+        email: "anaya2025@yopmail.com",
+        password: "123",
+        confirmPassword: "123",
+      },
+
+      ActivationRequest: {
+        code: "abcdef",
       },
     },
   },

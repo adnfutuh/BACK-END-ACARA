@@ -47,6 +47,10 @@ export default {
   async register(req: Request, res: Response) {
     /**
      #swagger.tags=['Auth']
+     #swagger.requestBody = {
+      required:true,
+      schema:{$ref:"#/components/schemas/RegisterRequest"}
+     }
      */
     const { fullName, userName, email, password, confirmPassword } =
       req.body as unknown as TRegister;
@@ -85,13 +89,14 @@ export default {
      #swagger.tags=['Auth']
      #swagger.requestBody = {
       required:true,
-      schema:{$ref:"#/components/schemas/loginRequest"}
+      schema:{$ref:"#/components/schemas/LoginRequest"}
      }
      */
     const { identifier, password } = req.body as unknown as TLogin;
     try {
       const userByIdentifier = await UserModel.findOne({
         $or: [{ email: identifier }, { userName: identifier }],
+        isActive: true,
       });
       if (!userByIdentifier) {
         return res.status(403).json({
@@ -120,6 +125,7 @@ export default {
       res.status(400).json({ message: err.message, data: null });
     }
   },
+
   async me(req: IReqUser, res: Response) {
     /**
      #swagger.tags=['Auth']
@@ -138,6 +144,36 @@ export default {
         message: "Success get user profile",
         data: result,
       });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(400).json({ message: err.message, data: null });
+    }
+  },
+
+  async activation(req: Request, res: Response) {
+    /**
+     #swagger.tags=['Auth']
+     #swagger.requestBody = {
+      required: true,
+      schema:{$ref:"#/components/schemas/ActivationRequest"}
+     }
+     #swagger.security = [
+      {
+       "bearerAuth": []
+      }
+     ]
+     */
+    const { code } = req.body as { code: string };
+    const user = await UserModel.findOneAndUpdate(
+      { activationCode: code },
+      { isActive: true },
+      { new: true }
+    );
+    res.status(200).json({
+      meassage: "User successfully activated",
+      data: user,
+    });
+    try {
     } catch (error) {
       const err = error as unknown as Error;
       res.status(400).json({ message: err.message, data: null });

@@ -48,7 +48,7 @@ const UserSchema = new Schema<User>(
     },
     isActive: {
       type: Schema.Types.Boolean,
-      required: false,
+      default: false,
     },
     activationCode: {
       type: Schema.Types.String,
@@ -59,6 +59,7 @@ const UserSchema = new Schema<User>(
 UserSchema.pre("save", function (next) {
   const user = this;
   user.password = encrypt(user.password);
+  user.activationCode = encrypt(user.id);
   next();
 });
 UserSchema.post("save", async function (doc, next) {
@@ -91,6 +92,7 @@ UserSchema.post("save", async function (doc, next) {
 UserSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password;
+  delete user.activationCode;
   return user;
 };
 const UserModel = mongoose.model("User", UserSchema);
