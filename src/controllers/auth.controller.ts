@@ -22,7 +22,20 @@ const registerValidateSchema = yup.object({
   fullName: yup.string().required(),
   userName: yup.string().required(),
   email: yup.string().required(),
-  password: yup.string().required(),
+  password: yup
+    .string()
+    .required()
+    .min(6, "Password must be at least 6 characters")
+    .test("at-least-one-uppercase-letter", "Contains at least one uppercase letter", (value) => {
+      if (!value) return false;
+      const regex = /^(?=.*[A-Z])/;
+      return regex.test(value);
+    })
+    .test("at-least-one-number-letter", "Contains at least one number letter", (value) => {
+      if (!value) return false;
+      const regex = /^(?=.*\d)/;
+      return regex.test(value);
+    }),
   confirmPassword: yup
     .string()
     .required()
