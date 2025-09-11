@@ -64,16 +64,17 @@ export default {
         confirmPassword,
       });
 
-      const result = await UserModel.create({
+      const user = new UserModel({
         fullName,
         userName,
         email,
         password,
       });
 
+      await user.save();
       res.status(200).json({
         message: "Registration Success!",
-        data: result,
+        data: user,
       });
     } catch (error) {
       const err = error as unknown as Error;
