@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import router from "./routes/api";
 import db from "./utils/database";
 import docs from "./docs/route";
+import response from "./utils/response";
 
 async function init() {
   try {
@@ -16,10 +17,7 @@ async function init() {
     app.use(bodyParser.json());
 
     app.get("/", (req, res) => {
-      res.status(200).json({
-        message: "Server is running",
-        data: null,
-      });
+      response.success(res, null, "Server is running");
     });
 
     const PORT = 3000;
