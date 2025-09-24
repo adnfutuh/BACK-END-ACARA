@@ -29,8 +29,8 @@ const doc = {
     },
     schemas: {
       LoginRequest: {
-        identifier: "Adnan Progammer",
-        password: "password123",
+        identifier: "rizki@example.com",
+        password: "Password123",
       },
 
       RegisterRequest: {
@@ -43,6 +43,28 @@ const doc = {
 
       ActivationRequest: {
         code: "abcdef",
+      },
+      CreateCategoryRequest: {
+        name: "",
+        description: "",
+        icon: "",
+      },
+      CreateEventRequest: {
+        name: "",
+        description: "",
+        banner: "fileUrl",
+        category: "category ObjectId",
+        startDate: "yyyy-mm-dd hh:mm:ss",
+        endDate: "yyyy-mm-dd hh:mm:ss",
+        location: {
+          region: "region id",
+          coordinates: [0, 0],
+        },
+        isOnline: false,
+        isFeatured: false,
+      },
+      RemoveMediaRequest: {
+        fileUrl: "",
       },
     },
   },

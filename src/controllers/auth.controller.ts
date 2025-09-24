@@ -46,13 +46,6 @@ const registerValidateSchema = yup.object({
 
 export default {
   async register(req: Request, res: Response) {
-    /**
-     #swagger.tags=['Auth']
-     #swagger.requestBody = {
-      required:true,
-      schema:{$ref:"#/components/schemas/RegisterRequest"}
-     }
-     */
     const { fullName, userName, email, password, confirmPassword } =
       req.body as unknown as TRegister;
 
@@ -79,13 +72,6 @@ export default {
   },
 
   async login(req: Request, res: Response) {
-    /**
-     #swagger.tags=['Auth']
-     #swagger.requestBody = {
-      required:true,
-      schema:{$ref:"#/components/schemas/LoginRequest"}
-     }
-     */
     const { identifier, password } = req.body as unknown as TLogin;
     try {
       const userByIdentifier = await UserModel.findOne({
@@ -112,14 +98,6 @@ export default {
   },
 
   async me(req: IReqUser, res: Response) {
-    /**
-     #swagger.tags=['Auth']
-     #swagger.security = [
-      {
-       "bearerAuth": []
-      }
-     ]
-     */
     try {
       const user = req.user;
 
@@ -132,18 +110,6 @@ export default {
   },
 
   async activation(req: Request, res: Response) {
-    /**
-     #swagger.tags=['Auth']
-     #swagger.requestBody = {
-      required: true,
-      schema:{$ref:"#/components/schemas/ActivationRequest"}
-     }
-     #swagger.security = [
-      {
-       "bearerAuth": []
-      }
-     ]
-     */
     const { code } = req.body as { code: string };
     const user = await UserModel.findOneAndUpdate(
       { activationCode: code },
